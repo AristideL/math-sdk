@@ -63,3 +63,29 @@ class GameStateOverride(GameExecutables):
             required = self.config.mode_minimum_multiplier.get(self.betmode)
             if required is not None and self.get_highest_multiplier() < required:
                 self.repeat = True
+
+    # --- Freespin helpers -------------------------------------------------
+    def _fs_award_from_scatter(self, scatter_count: int) -> int:
+        """Return freespin award for a scatter count, clamping to the max defined key."""
+        trigger_map = self.config.freespin_triggers[self.gametype]
+        if scatter_count in trigger_map:
+            return trigger_map[scatter_count]
+        max_key = max(trigger_map.keys())
+        if scatter_count > max_key:
+            return trigger_map[max_key]
+        min_key = min(trigger_map.keys())
+        if scatter_count < min_key:
+            return trigger_map[min_key]
+        return trigger_map[max_key]
+
+    def update_freespin_amount(self, scatter_key: str = "scatter") -> None:
+        """Set initial number of spins for a freegame and transmit event (clamped to trigger table)."""
+        scatter_count = self.count_special_symbols(scatter_key)
+        self.tot_fs = self._fs_award_from_scatter(scatter_count)
+        return super().update_freespin_amount(scatter_key=scatter_key)
+
+    def update_fs_retrigger_amt(self, scatter_key: str = "scatter") -> None:
+        """Update total freespin amount on retrigger (clamped to trigger table)."""
+        scatter_count = self.count_special_symbols(scatter_key)
+        self.tot_fs += self._fs_award_from_scatter(scatter_count)
+        return super().update_fs_retrigger_amt(scatter_key=scatter_key)

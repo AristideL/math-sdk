@@ -57,3 +57,28 @@ def test_boringjob_optimization_setup_matches_modes():
     for mode_name, opt_config in config.opt_params.items():
         distribution_keys = {dist.get_criteria() for dist in config.get_betmode(mode_name).get_distributions()}
         assert set(opt_config["conditions"].keys()) == distribution_keys
+
+
+def test_boringjob_scatter_retrigger_clamped():
+    config = GameConfig()
+    gamestate = GameState(config)
+    gamestate.betmode = "base"
+    gamestate.gametype = config.basegame_type
+    # force a board with 7 scatters
+    scatter_sym = gamestate.create_symbol("S")
+    board = []
+    scatter_positions = 0
+    for r in range(config.num_reels):
+        board.append([])
+        for _ in range(config.num_rows[r]):
+            if scatter_positions < 7:
+                board[r].append(scatter_sym)
+                scatter_positions += 1
+            else:
+                board[r].append(gamestate.create_symbol("H1"))
+    gamestate.board = board
+    gamestate.get_special_symbols_on_board()
+    gamestate.tot_fs = 0
+    # Should not raise even though 7 is not explicitly defined in triggers
+    gamestate.update_fs_retrigger_amt()
+    assert gamestate.tot_fs > 0
