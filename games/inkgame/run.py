@@ -1,6 +1,5 @@
-"""Main entry for boringjob."""
+"""Main file for generating results for sample ways-pay game."""
 
-import os
 from gamestate import GameState
 from game_config import GameConfig
 from game_optimization import OptimizationSetup
@@ -14,19 +13,13 @@ if __name__ == "__main__":
 
     num_threads = 10
     rust_threads = 20
-    batching_size = 5000
+    batching_size = 50000
     compression = True
     profiling = False
 
     num_sim_args = {
-        "base": int(1e4),
-        "bonus": int(1e4),
-        "doubleboost": int(1e4),
-        "no_small_bomb": int(1e4),
-        "min_one_x10": int(1e4),
-        "min_one_x100": int(1e4),
-        "min_one_x1000": int(1e4),
-    }
+        "min_one_x10": 2000,
+}
 
     run_conditions = {
         "run_sims": True,
@@ -34,15 +27,7 @@ if __name__ == "__main__":
         "run_analysis": True,
         "run_format_checks": True,
     }
-    mode_override = os.getenv("BORINGJOB_MODE", "").lower()
-    if mode_override == "books":
-        run_conditions["run_optimization"] = False
-        run_conditions["run_analysis"] = False
-    elif mode_override == "opt":
-        run_conditions["run_sims"] = False
-        run_conditions["run_analysis"] = False
-        run_conditions["run_format_checks"] = False
-    target_modes = list(num_sim_args.keys())
+    target_modes = ["min_one_x10"]
 
     config = GameConfig()
     gamestate = GameState(config)
@@ -67,7 +52,7 @@ if __name__ == "__main__":
         generate_configs(gamestate)
 
     if run_conditions["run_analysis"]:
-        custom_keys = [{"symbol": "S"}, {"symbol": "B"}]
+        custom_keys = [{"symbol": "scatter"}]
         create_stat_sheet(gamestate, custom_keys=custom_keys)
 
     if run_conditions["run_format_checks"]:

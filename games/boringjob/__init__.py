@@ -1,1 +1,0 @@
-"""boringjob game package."""
