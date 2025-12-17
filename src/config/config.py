@@ -88,6 +88,13 @@ class Config:
                 return idx
         return RuntimeError(f"winLevel not found: {win_amount}")
 
+    def get_betmode(self, mode_name: str) -> object:
+        """Return betmode by name."""
+        for betmode in self.bet_modes:
+            if betmode.get_name() == mode_name:
+                return betmode
+        raise ValueError(f"Betmode '{mode_name}' not found")
+
     def get_special_symbol_names(self) -> None:
         """Get names of all special symbols"""
         self.special_sybol_names = set()

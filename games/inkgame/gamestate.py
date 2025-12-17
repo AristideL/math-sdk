@@ -4,24 +4,6 @@ from src.calculations.scatter import Scatter
 
 class GameState(GameStateOverride):
     """Gamestate for a single spin"""
-    
-    def _board_has_M(self):
-        for row in self.board:
-            for cell in row:
-                if getattr(cell, "symbol", None) == "M":
-                    return True
-        return False
-
-    def _force_place_one_M(self):
-        from random import choice
-        spots = [(r,c) for r,row in enumerate(self.board)
-                       for c,cell in enumerate(row)
-                       if getattr(cell, "symbol", None) not in ("SCATTER","BLOCK")]
-        if spots:
-            r,c = choice(spots)
-            self.assign_mult_property(self.board[r][c])
-        else:
-            print("Warning: No valid spot to place M symbol!")
 
     def run_spin(self, sim: int):
         self.reset_seed(sim)
@@ -29,8 +11,8 @@ class GameState(GameStateOverride):
         while self.repeat:
             self.reset_book()
             self.draw_board()
-            # if self._is_single_spin_mode() and not self._board_has_M():
-            #     self._force_place_one_M()
+            # Enforce multiplier guarantees for single-spin modes
+            self.enforce_multiplier_guarantee()
 
             self.get_scatterpays_update_wins()
             self.emit_tumble_win_events()  # Transmit win information

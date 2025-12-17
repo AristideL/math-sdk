@@ -30,8 +30,7 @@ class GameStateOverride(GameExecutables):
         return bool(getattr(self, "freegame_finished", False))
     
     def _required_min_bomb(self, cond):
-        if self._is_single_spin_mode():
-            return cond.get("guaranteed_min_bomb")
+        """Get the required minimum bomb multiplier from conditions."""
         return cond.get("guaranteed_min_bomb")
 
     def assign_mult_property(self, symbol):
@@ -76,24 +75,27 @@ class GameStateOverride(GameExecutables):
             set_win_event(self)
         set_total_event(self)
 
-    def check_game_repeat(self):
+    def check_repeat(self):
+        # First, call the parent check_repeat to handle standard criteria
+        super().check_repeat()
+        
+        # If already marked for repeat by parent, we're done
         if self.repeat:
             return
-        win_criteria = self.get_current_betmode_distributions().get_win_criteria()
-        if win_criteria is not None and self.final_win != win_criteria:
-            self.repeat = True
-            return
-
+        
+        # Additional checks for bomb guarantees
         cond = self.get_current_distribution_conditions() or {}
         need = self._required_min_bomb(cond)
         if need is None:
             return
-
+        
+        # For single-spin modes, check if we saw the guaranteed minimum bomb
         if self._is_single_spin_mode():
             if not self.guaranteed_min_bomb_seen:
                 self.repeat = True
             return
-
+        
+        # For freegame modes with bomb requirements
         if self.gametype == self.config.freegame_type and self._is_end_of_freegame():
             if not self.guaranteed_min_bomb_seen:
                 self.repeat = True
