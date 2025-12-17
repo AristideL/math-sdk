@@ -51,6 +51,8 @@ class GameCalculations(Executables):
         # Check if we already have an M symbol with sufficient multiplier
         highest = self.get_highest_multiplier()
         if highest >= required_min:
+            # Make sure the flag is set
+            self.guaranteed_min_bomb_seen = True
             return
         
         # Need to place/upgrade an M symbol
@@ -65,6 +67,7 @@ class GameCalculations(Executables):
             # Upgrade one existing M to meet the requirement
             reel, row = m_positions[0]
             self.board[reel][row].assign_attribute({"multiplier": required_min})
+            self.guaranteed_min_bomb_seen = True
         else:
             # Place a new M symbol on a random valid position
             import random
@@ -77,9 +80,12 @@ class GameCalculations(Executables):
             
             if valid_spots:
                 reel, row = random.choice(valid_spots)
-                # Replace with M symbol
+                # Replace with M symbol - create it with the exact multiplier needed
                 m_symbol = self.create_symbol("M")
+                # Override whatever multiplier was assigned to ensure we have the minimum
                 m_symbol.assign_attribute({"multiplier": required_min})
                 self.board[reel][row] = m_symbol
                 # Update special symbols tracking
                 self.get_special_symbols_on_board()
+                # Mark that we've fulfilled the guarantee
+                self.guaranteed_min_bomb_seen = True
