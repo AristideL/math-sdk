@@ -57,6 +57,7 @@ class GameCalculations(Executables):
                     "meta": {
                         "bombPrize": prize_value,
                         "globalMult": self.global_multiplier,
+                        "winWithoutMult": sum(p["value"] * prize_value for p in bomb_positions),
                     },
                 }
             )
