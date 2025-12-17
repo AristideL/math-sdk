@@ -1,10 +1,15 @@
 import pytest
+import sys
+import os
 
 pytest.importorskip("zstandard")
 
-from games.boringjob.game_config import GameConfig
-from games.boringjob.gamestate import GameState
-from games.boringjob.game_optimization import OptimizationSetup
+# Add inkgame directory to path for relative imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "games", "inkgame"))
+
+from game_config import GameConfig
+from gamestate import GameState
+from game_optimization import OptimizationSetup
 
 
 EXPECTED_MODES = [

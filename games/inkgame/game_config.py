@@ -121,6 +121,20 @@ class GameConfig(Config):
 
         self.padding_reels[self.basegame_type] = self.reels["BR0"]
         self.padding_reels[self.freegame_type] = self.reels["FR0"]
+        
+        # Minimum multiplier requirements for specific bet modes
+        # Note: These apply to guarantees in basegame/single-spin contexts
+        # For no_small_bomb, the minimum only applies in freegame (not basegame)
+        self.mode_minimum_multiplier = {
+            "base": None,
+            "bonus": None,
+            "doubleboost": None,
+            "no_small_bomb": None,  # Min mult enforcement only in freegame, not basegame
+            "min_one_x10": 10,
+            "min_one_x100": 100,
+            "min_one_x1000": 1000,
+        }
+        
         self.bet_modes = [
             BetMode(
                 name="base",
