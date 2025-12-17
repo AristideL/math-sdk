@@ -15,9 +15,18 @@ class GameState(GameStateOverride):
         while self.repeat:
             self.reset_book()
             self.draw_board()
-            self.enforce_bomb_guarantee()
+            self.enforce_multiplier_guarantee()
 
             self.evaluate_boringjob_board()
+            self.emit_tumble_win_events()
+
+            while self.win_data["totalWin"] > 0 and not (self.wincap_triggered):
+                self.tumble_game_board()
+                self.enforce_multiplier_guarantee()
+                self.evaluate_boringjob_board()
+                self.emit_tumble_win_events()
+
+            self.set_end_tumble_event()
             self.win_manager.update_gametype_wins(self.gametype)
 
             if self.check_fs_condition() and self.check_freespin_entry():
@@ -32,8 +41,17 @@ class GameState(GameStateOverride):
         while self.fs < self.tot_fs:
             self.update_freespin()
             self.draw_board()
-            self.enforce_bomb_guarantee()
+            self.enforce_multiplier_guarantee()
             self.evaluate_boringjob_board()
+            self.emit_tumble_win_events()
+
+            while self.win_data["totalWin"] > 0 and not (self.wincap_triggered):
+                self.tumble_game_board()
+                self.enforce_multiplier_guarantee()
+                self.evaluate_boringjob_board()
+                self.emit_tumble_win_events()
+
+            self.set_end_tumble_event()
 
             if self.check_fs_condition():
                 self.update_fs_retrigger_amt()

@@ -43,11 +43,11 @@ def test_boringjob_board_generation_and_bomb_guarantee():
             gamestate.gametype = config.basegame_type
             gamestate.reset_book()
             gamestate.draw_board(emit_event=False)
-            gamestate.enforce_bomb_guarantee()
+            gamestate.enforce_multiplier_guarantee()
             assert len(gamestate.board) == config.num_reels
-            required = config.mode_minimum_bombs.get(gamestate.betmode)
+            required = config.mode_minimum_multiplier.get(gamestate.betmode)
             if required is not None:
-                assert gamestate.get_highest_bomb_value() >= required
+                assert gamestate.get_highest_multiplier() >= required
 
 
 def test_boringjob_optimization_setup_matches_modes():

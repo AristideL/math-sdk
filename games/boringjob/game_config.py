@@ -66,7 +66,7 @@ class GameConfig(Config):
         self.paytable = self.convert_range_table(pay_group)
 
         self.include_padding = True
-        self.special_symbols = {"wild": [], "scatter": ["S"], "bomb": ["B"], "multiplier": ["B"]}
+        self.special_symbols = {"wild": [], "scatter": ["S"], "multiplier": ["B"]}
 
         self.freespin_triggers = {
             self.basegame_type: {3: 8, 4: 12, 5: 16, 6: 20},
@@ -85,23 +85,22 @@ class GameConfig(Config):
         self.padding_reels[self.basegame_type] = self.reels["BR0"]
         self.padding_reels[self.freegame_type] = self.reels["FR0"]
 
-        # Bomb defaults
-        self.default_bomb_prize = 0.4
-        self.mode_minimum_bombs = {
+        # Multiplier defaults
+        self.mode_minimum_multiplier = {
             "min_one_x10": 10,
             "min_one_x100": 100,
             "min_one_x1000": 1000,
         }
 
-        base_bomb_values = {
+        base_mult_values = {
             self.basegame_type: {2: 30, 5: 25, 10: 20, 25: 10, 50: 8, 100: 5, 250: 2},
             self.freegame_type: {5: 25, 10: 20, 25: 15, 50: 10, 100: 6, 250: 3, 500: 2, 1000: 1},
         }
-        boosted_bomb_values = {
+        boosted_mult_values = {
             self.basegame_type: {5: 25, 10: 20, 25: 15, 50: 10, 100: 8, 250: 4},
             self.freegame_type: {10: 25, 25: 18, 50: 12, 100: 8, 250: 4, 500: 3, 1000: 2},
         }
-        no_small_bomb_values = {
+        no_small_mult_values = {
             self.basegame_type: {10: 25, 25: 18, 50: 12, 100: 8, 250: 5, 500: 2},
             self.freegame_type: {25: 24, 50: 18, 100: 12, 250: 8, 500: 4, 1000: 2},
         }
@@ -117,15 +116,10 @@ class GameConfig(Config):
             self.basegame_type: {1000: 24, 1500: 12, 2000: 6, 2500: 4},
             self.freegame_type: {1000: 20, 1500: 12, 2000: 8, 2500: 6, 3000: 4},
         }
-        wincap_bomb_values = {
+        wincap_mult_values = {
             self.basegame_type: {750: 12, 1000: 10, 1500: 8, 2000: 6, 3000: 4, 4000: 2, 7000: 1},
             self.freegame_type: {1000: 12, 1500: 10, 2000: 8, 3000: 6, 4000: 4, 5000: 2, 7000: 1},
         }
-
-        base_bomb_prize = {self.basegame_type: 0.35, self.freegame_type: 0.55}
-        boosted_bomb_prize = {self.basegame_type: 0.4, self.freegame_type: 0.6}
-        high_bomb_prize = {self.basegame_type: 0.45, self.freegame_type: 0.65}
-        extreme_bomb_prize = {self.basegame_type: 0.5, self.freegame_type: 0.75}
 
         common_scatter = {3: 1, 4: 2, 5: 2, 6: 1}
 
@@ -149,8 +143,7 @@ class GameConfig(Config):
                                 self.freegame_type: {"FR0": 1, "BW0": 3},
                             },
                             "scatter_triggers": common_scatter,
-                            "bomb_values": wincap_bomb_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": wincap_mult_values,
                             "force_wincap": True,
                             "force_freegame": True,
                         },
@@ -161,8 +154,7 @@ class GameConfig(Config):
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}, self.freegame_type: {"FR0": 1}},
                             "scatter_triggers": common_scatter,
-                            "bomb_values": base_bomb_values,
-                            "bomb_prize": base_bomb_prize,
+                            "mult_values": base_mult_values,
                             "force_wincap": False,
                             "force_freegame": True,
                         },
@@ -173,8 +165,7 @@ class GameConfig(Config):
                         win_criteria=0.0,
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
-                            "bomb_values": base_bomb_values,
-                            "bomb_prize": base_bomb_prize,
+                            "mult_values": base_mult_values,
                             "force_wincap": False,
                             "force_freegame": False,
                         },
@@ -184,8 +175,7 @@ class GameConfig(Config):
                         quota=0.59,
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
-                            "bomb_values": base_bomb_values,
-                            "bomb_prize": base_bomb_prize,
+                            "mult_values": base_mult_values,
                             "force_wincap": False,
                             "force_freegame": False,
                         },
@@ -211,8 +201,7 @@ class GameConfig(Config):
                                 self.freegame_type: {"BW0": 1, "FR0": 1},
                             },
                             "scatter_triggers": common_scatter,
-                            "bomb_values": wincap_bomb_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": wincap_mult_values,
                             "force_wincap": True,
                             "force_freegame": True,
                         },
@@ -223,8 +212,7 @@ class GameConfig(Config):
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}, self.freegame_type: {"FR0": 1}},
                             "scatter_triggers": common_scatter,
-                            "bomb_values": boosted_bomb_values,
-                            "bomb_prize": boosted_bomb_prize,
+                            "mult_values": boosted_mult_values,
                             "force_wincap": False,
                             "force_freegame": True,
                         },
@@ -250,8 +238,7 @@ class GameConfig(Config):
                                 self.freegame_type: {"FR0": 1, "BW0": 3},
                             },
                             "scatter_triggers": common_scatter,
-                            "bomb_values": wincap_bomb_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": wincap_mult_values,
                             "force_wincap": True,
                             "force_freegame": True,
                         },
@@ -265,8 +252,7 @@ class GameConfig(Config):
                                 self.freegame_type: {"FR0": 1},
                             },
                             "scatter_triggers": common_scatter,
-                            "bomb_values": boosted_bomb_values,
-                            "bomb_prize": boosted_bomb_prize,
+                            "mult_values": boosted_mult_values,
                             "force_wincap": False,
                             "force_freegame": True,
                         },
@@ -277,8 +263,7 @@ class GameConfig(Config):
                         win_criteria=0.0,
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
-                            "bomb_values": boosted_bomb_values,
-                            "bomb_prize": boosted_bomb_prize,
+                            "mult_values": boosted_mult_values,
                             "force_wincap": False,
                             "force_freegame": False,
                         },
@@ -288,8 +273,7 @@ class GameConfig(Config):
                         quota=0.485,
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1, "BW0": 1}},
-                            "bomb_values": boosted_bomb_values,
-                            "bomb_prize": boosted_bomb_prize,
+                            "mult_values": boosted_mult_values,
                             "force_wincap": False,
                             "force_freegame": False,
                         },
@@ -315,8 +299,7 @@ class GameConfig(Config):
                                 self.freegame_type: {"BW0": 1, "FR0": 1},
                             },
                             "scatter_triggers": common_scatter,
-                            "bomb_values": wincap_bomb_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": wincap_mult_values,
                             "force_wincap": True,
                             "force_freegame": True,
                         },
@@ -327,8 +310,7 @@ class GameConfig(Config):
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}, self.freegame_type: {"FR0": 1}},
                             "scatter_triggers": common_scatter,
-                            "bomb_values": no_small_bomb_values,
-                            "bomb_prize": high_bomb_prize,
+                            "mult_values": no_small_mult_values,
                             "force_wincap": False,
                             "force_freegame": True,
                         },
@@ -354,8 +336,7 @@ class GameConfig(Config):
                                 self.freegame_type: {"FR0": 1, "BW0": 3},
                             },
                             "scatter_triggers": common_scatter,
-                            "bomb_values": wincap_bomb_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": wincap_mult_values,
                             "force_wincap": True,
                             "force_freegame": True,
                         },
@@ -366,8 +347,7 @@ class GameConfig(Config):
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}, self.freegame_type: {"FR0": 1}},
                             "scatter_triggers": common_scatter,
-                            "bomb_values": min_ten_values,
-                            "bomb_prize": high_bomb_prize,
+                            "mult_values": min_ten_values,
                             "force_wincap": False,
                             "force_freegame": True,
                         },
@@ -378,8 +358,7 @@ class GameConfig(Config):
                         win_criteria=0.0,
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
-                            "bomb_values": min_ten_values,
-                            "bomb_prize": high_bomb_prize,
+                            "mult_values": min_ten_values,
                             "force_wincap": False,
                             "force_freegame": False,
                         },
@@ -389,8 +368,7 @@ class GameConfig(Config):
                         quota=0.535,
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
-                            "bomb_values": min_ten_values,
-                            "bomb_prize": high_bomb_prize,
+                            "mult_values": min_ten_values,
                             "force_wincap": False,
                             "force_freegame": False,
                         },
@@ -416,8 +394,7 @@ class GameConfig(Config):
                                 self.freegame_type: {"BW0": 2, "FR0": 1},
                             },
                             "scatter_triggers": common_scatter,
-                            "bomb_values": wincap_bomb_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": wincap_mult_values,
                             "force_wincap": True,
                             "force_freegame": True,
                         },
@@ -428,8 +405,7 @@ class GameConfig(Config):
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}, self.freegame_type: {"FR0": 1}},
                             "scatter_triggers": common_scatter,
-                            "bomb_values": min_hundred_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": min_hundred_values,
                             "force_wincap": False,
                             "force_freegame": True,
                         },
@@ -440,8 +416,7 @@ class GameConfig(Config):
                         win_criteria=0.0,
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
-                            "bomb_values": min_hundred_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": min_hundred_values,
                             "force_wincap": False,
                             "force_freegame": False,
                         },
@@ -451,8 +426,7 @@ class GameConfig(Config):
                         quota=0.53,
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
-                            "bomb_values": min_hundred_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": min_hundred_values,
                             "force_wincap": False,
                             "force_freegame": False,
                         },
@@ -478,8 +452,7 @@ class GameConfig(Config):
                                 self.freegame_type: {"BW0": 3, "FR0": 1},
                             },
                             "scatter_triggers": common_scatter,
-                            "bomb_values": wincap_bomb_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": wincap_mult_values,
                             "force_wincap": True,
                             "force_freegame": True,
                         },
@@ -490,8 +463,7 @@ class GameConfig(Config):
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}, self.freegame_type: {"FR0": 1}},
                             "scatter_triggers": common_scatter,
-                            "bomb_values": min_thousand_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": min_thousand_values,
                             "force_wincap": False,
                             "force_freegame": True,
                         },
@@ -502,8 +474,7 @@ class GameConfig(Config):
                         win_criteria=0.0,
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
-                            "bomb_values": min_thousand_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": min_thousand_values,
                             "force_wincap": False,
                             "force_freegame": False,
                         },
@@ -513,8 +484,7 @@ class GameConfig(Config):
                         quota=0.55,
                         conditions={
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
-                            "bomb_values": min_thousand_values,
-                            "bomb_prize": extreme_bomb_prize,
+                            "mult_values": min_thousand_values,
                             "force_wincap": False,
                             "force_freegame": False,
                         },
