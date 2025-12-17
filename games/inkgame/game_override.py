@@ -30,8 +30,7 @@ class GameStateOverride(GameExecutables):
         return bool(getattr(self, "freegame_finished", False))
     
     def _required_min_bomb(self, cond):
-        if self._is_single_spin_mode():
-            return cond.get("guaranteed_min_bomb")
+        """Get the required minimum bomb multiplier from conditions."""
         return cond.get("guaranteed_min_bomb")
 
     def assign_mult_property(self, symbol):

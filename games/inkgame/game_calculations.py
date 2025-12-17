@@ -71,6 +71,8 @@ class GameCalculations(Executables):
             self.guaranteed_min_bomb_seen = True
         else:
             # Place a new M symbol on a random valid position
+            # Note: random.choice is deterministic here because reset_seed() is called
+            # at the start of run_spin, seeding the global random state
             valid_spots = []
             for reel, _ in enumerate(self.board):
                 for row, _ in enumerate(self.board[reel]):
