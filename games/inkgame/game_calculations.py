@@ -1,5 +1,6 @@
 """Scatter pays game calculations"""
 
+import random
 from src.executables.executables import Executables
 
 
@@ -70,7 +71,6 @@ class GameCalculations(Executables):
             self.guaranteed_min_bomb_seen = True
         else:
             # Place a new M symbol on a random valid position
-            import random
             valid_spots = []
             for reel, _ in enumerate(self.board):
                 for row, _ in enumerate(self.board[reel]):
